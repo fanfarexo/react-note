@@ -6,26 +6,25 @@ const reducer = (state, action) => {
   switch (action.type) {
     case 'change_name': {
       return {
+        ...state,
         name: action.nextName,
-        age: state.age,
       };
     }
     case 'decrement_age': {
       return {
-        name: state.name,
+        ...state,
         age: state.age - 1,
       };
     }
     case 'increment_age': {
       return {
-        name: state.name,
+        ...state,
         age: state.age + 1,
       };
     }
   }
   throw Error('Unknown action: ', action.type);
 };
-
 const FormObj = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
