@@ -2,14 +2,16 @@ import { ChangeEvent, useReducer } from 'react';
 
 type initialStateType = { name: string; age: number };
 
-const CHANGE_NAME = 'change_name';
-const DECREMENT_AGE = 'decrement_age';
-const INCREMENT_AGE = 'increment_age';
+const ACTIONS = {
+  CHANGE_NAME: 'change_name',
+  DECREMENT_AGE: 'decrement_age',
+  INCREMENT_AGE: 'increment_age',
+} as const;
 
 type actionType =
-  | { type: typeof CHANGE_NAME; nextName: string }
-  | { type: typeof DECREMENT_AGE }
-  | { type: typeof INCREMENT_AGE };
+  | { type: typeof ACTIONS.CHANGE_NAME; nextName: string }
+  | { type: typeof ACTIONS.DECREMENT_AGE }
+  | { type: typeof ACTIONS.INCREMENT_AGE };
 
 const initialState = { name: 'Taylor', age: 40 };
 
@@ -41,15 +43,15 @@ const FormObj = () => {
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch({
-      type: CHANGE_NAME,
+      type: ACTIONS.CHANGE_NAME,
       nextName: e.target.value,
     });
   };
   const decrement = () => {
-    dispatch({ type: DECREMENT_AGE });
+    dispatch({ type: ACTIONS.DECREMENT_AGE });
   };
   const increment = () => {
-    dispatch({ type: INCREMENT_AGE });
+    dispatch({ type: ACTIONS.INCREMENT_AGE });
   };
 
   return (
