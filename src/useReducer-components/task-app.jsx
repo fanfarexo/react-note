@@ -37,12 +37,17 @@ const TaskApp = () => {
     setTasks(newTasks);
   };
 
+  const onEdit = (id, text) => {
+    const newTasks = tasks.map((task) => (task.id === id ? { ...task, text: text } : task));
+    setTasks(newTasks);
+  };
+
   return (
     <>
       <h1>Prague itinerary</h1>
       <input type='text' placeholder='Add task' value={inputValue} onChange={onChange} />
       <button onClick={() => onAdd(inputValue)}>Add</button>
-      <TaskList tasks={tasks} onDelete={onDelete} onToggle={onToggle} />
+      <TaskList tasks={tasks} onDelete={onDelete} onToggle={onToggle} onEdit={onEdit} />
     </>
   );
 };
