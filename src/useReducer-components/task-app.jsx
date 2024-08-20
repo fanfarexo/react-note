@@ -12,12 +12,13 @@ const TaskApp = () => {
     setInputValue(e.target.value);
   };
 
-  const onAdd = (inputValue) => {
+  const onAdd = (text) => {
+    if (!inputValue.trim()) return setInputValue('');
     const newTasks = [
       ...tasks,
       {
         id: new Date().getTime(),
-        text: inputValue,
+        text,
         done: false,
       },
     ];
@@ -38,20 +39,14 @@ const TaskApp = () => {
   const taskList = (
     <ul>
       {tasks.map((task) => (
-        <li
-          key={task.id}
-          onClick={() => onToggle(task.id)}
-          style={{ textDecoration: task.done ? 'line-through' : 'none' }}
-        >
-          {task.text}
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onDelete(task.id);
-            }}
+        <li key={task.id}>
+          <span
+            onClick={() => onToggle(task.id)}
+            style={{ textDecoration: task.done ? 'line-through' : 'none' }}
           >
-            Delete
-          </button>
+            {task.text}
+          </span>
+          <button onClick={() => onDelete(task.id)}>Delete</button>
         </li>
       ))}
     </ul>
