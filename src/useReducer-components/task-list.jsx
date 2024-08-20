@@ -18,19 +18,18 @@ const TaskList = ({ tasks, onDelete, onToggle, onEdit }) => {
 
 const TaskItem = ({ task, onDelete, onToggle, onEdit }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [inputValue, setInputValue] = useState('');
 
   let taskContent = isEditing ? (
     <>
       <input
         type='text'
-        placeholder={task.text}
-        value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
+        value={task.text}
+        onChange={(e) => {
+          onEdit(task.id, e.target.value);
+        }}
       />
       <button
         onClick={() => {
-          onEdit(task.id, inputValue);
           setIsEditing(false);
         }}
       >
