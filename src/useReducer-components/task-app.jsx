@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import TaskList from './task-list';
 
 const TaskApp = () => {
   const [inputValue, setInputValue] = useState('');
@@ -36,28 +37,12 @@ const TaskApp = () => {
     setTasks(newTasks);
   };
 
-  const taskList = (
-    <ul>
-      {tasks.map((task) => (
-        <li key={task.id}>
-          <span
-            onClick={() => onToggle(task.id)}
-            style={{ textDecoration: task.done ? 'line-through' : 'none' }}
-          >
-            {task.text}
-          </span>
-          <button onClick={() => onDelete(task.id)}>Delete</button>
-        </li>
-      ))}
-    </ul>
-  );
-
   return (
     <>
       <h1>Prague itinerary</h1>
       <input type='text' placeholder='Add task' value={inputValue} onChange={onChange} />
       <button onClick={() => onAdd(inputValue)}>Add</button>
-      {taskList}
+      <TaskList tasks={tasks} onDelete={onDelete} onToggle={onToggle} />
     </>
   );
 };
