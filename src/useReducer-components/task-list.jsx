@@ -11,13 +11,11 @@ const TaskList = ({ tasks, onDelete, onToggle }) => {
 const TaskItem = ({ task, onDelete, onToggle }) => {
   return (
     <li>
-      <span
-        onClick={() => onToggle(task.id)}
-        style={{ textDecoration: task.done ? 'line-through' : 'none' }}
-      >
-        {task.text}
-      </span>
-      <button onClick={() => onDelete(task.id)}>Delete</button>
+      <label>
+        <input type='checkbox' checked={task.done} onChange={() => onToggle(task.id)} />
+        <span style={{ textDecoration: task.done ? 'line-through' : 'none' }}>{task.text}</span>
+        <button onClick={() => onDelete(task.id)}>Delete</button>
+      </label>
     </li>
   );
 };
