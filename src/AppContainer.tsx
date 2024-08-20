@@ -1,9 +1,9 @@
-import FormObj from './useReducer-components/form-obj';
+import TaskApp from './useReducer-components/task-app';
 
 const App = () => {
   return (
     <>
-      <FormObj />
+      <TaskApp />
     </>
   );
 };
