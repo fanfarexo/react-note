@@ -1,6 +1,7 @@
-import { ChangeEvent, useReducer, useState } from 'react';
+import { useReducer } from 'react';
 import TaskList from './task-list';
 import { produce } from 'immer';
+import TaskAdd from './task-add';
 
 export type TaskType = {
   id: number;
@@ -67,17 +68,10 @@ function taskReducer(state: InitialTasksType, action: TaskActionsType): InitialT
 }
 
 function TaskApp() {
-  const [inputValue, setInputValue] = useState('');
   const [tasks, dispatch] = useReducer(taskReducer, initialTasks);
 
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
-  };
-
   const handleAddTask = (inputText: string) => {
-    if (!inputValue.trim()) return setInputValue('');
     dispatch({ type: ACTIONS.ADD_TASK, text: inputText });
-    setInputValue('');
   };
 
   const handleDeleteTask = (taskId: number) => {
@@ -95,8 +89,7 @@ function TaskApp() {
   return (
     <>
       <h1>Prague itinerary</h1>
-      <input type='text' placeholder='Add task' value={inputValue} onChange={onChange} />
-      <button onClick={() => handleAddTask(inputValue)}>Add</button>
+      <TaskAdd onAddTask={handleAddTask} />
       <TaskList
         tasks={tasks}
         onDeleteTask={handleDeleteTask}
