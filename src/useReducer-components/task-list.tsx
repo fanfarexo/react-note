@@ -1,6 +1,14 @@
 import { useState } from 'react';
+import { InitialTasksType, TaskType } from './task-app';
 
-function TaskList({ tasks, onDeleteTask, onToggleTask, onEditTask }) {
+type TaskListProps = {
+  tasks: InitialTasksType;
+  onDeleteTask: (id: number) => void;
+  onToggleTask: (id: number) => void;
+  onEditTask: (id: number, text: string) => void;
+};
+
+function TaskList({ tasks, onDeleteTask, onToggleTask, onEditTask }: TaskListProps) {
   return (
     <ul>
       {tasks.map((task) => (
@@ -17,10 +25,17 @@ function TaskList({ tasks, onDeleteTask, onToggleTask, onEditTask }) {
   );
 }
 
-function TaskItem({ task, onDelete, onToggle, onEdit }) {
+type TaskItemProps = {
+  task: TaskType;
+  onDelete: (id: number) => void;
+  onToggle: (id: number) => void;
+  onEdit: (id: number, text: string) => void;
+};
+
+function TaskItem({ task, onDelete, onToggle, onEdit }: TaskItemProps) {
   const [isEditing, setIsEditing] = useState(false);
 
-  let taskContent = isEditing ? (
+  const taskContent = isEditing ? (
     <>
       <input
         type='text'
