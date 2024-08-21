@@ -1,5 +1,6 @@
 import { ChangeEvent, useReducer, useState } from 'react';
 import TaskList from './task-list';
+import { produce } from 'immer';
 
 export type TaskType = {
   id: number;
@@ -28,23 +29,41 @@ const initialTasks: InitialTasksType = [
 ];
 
 function taskReducer(state: InitialTasksType, action: TaskActionsType): InitialTasksType {
-  switch (action.type) {
-    case ACTIONS.ADD_TASK:
-      return [
-        ...state,
-        {
+  return produce(state, (draft) => {
+    switch (action.type) {
+      case ACTIONS.ADD_TASK: {
+        draft.push({
           id: Date.now(),
           text: action.text,
           done: false,
-        },
-      ];
-    case ACTIONS.DELETE_TASK:
-      return state.filter((task) => task.id !== action.id);
-    case ACTIONS.TOGGLE_DONE:
-      return state.map((task) => (task.id === action.id ? { ...task, done: !task.done } : task));
-    case ACTIONS.EDIT_TASK:
-      return state.map((task) => (task.id === action.id ? { ...task, text: action.text } : task));
-  }
+        });
+        break;
+      }
+      case ACTIONS.DELETE_TASK: {
+        const deleteIndex = draft.findIndex((task) => task.id === action.id);
+        if (deleteIndex !== -1) {
+          draft.splice(deleteIndex, 1);
+        }
+        break;
+      }
+      case ACTIONS.TOGGLE_DONE: {
+        const toggleTask = draft.find((task) => task.id === action.id);
+        if (toggleTask) {
+          toggleTask.done = !toggleTask.done;
+        }
+        break;
+      }
+      case ACTIONS.EDIT_TASK: {
+        const editTask = draft.find((task) => task.id === action.id);
+        if (editTask) {
+          editTask.text = action.text;
+        }
+        break;
+      }
+      default:
+        break;
+    }
+  });
 }
 
 function TaskApp() {
