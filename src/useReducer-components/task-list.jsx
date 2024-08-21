@@ -1,22 +1,23 @@
 import { useState } from 'react';
 
-const TaskList = ({ tasks, onDelete, onToggle, onEdit }) => {
+function TaskList({ tasks, onDeleteTask, onToggleTask, onEditTask }) {
   return (
     <ul>
       {tasks.map((task) => (
-        <TaskItem
-          key={task.id}
-          task={task}
-          onDelete={onDelete}
-          onToggle={onToggle}
-          onEdit={onEdit}
-        />
+        <li key={task.id}>
+          <TaskItem
+            task={task}
+            onDelete={onDeleteTask}
+            onToggle={onToggleTask}
+            onEdit={onEditTask}
+          />
+        </li>
       ))}
     </ul>
   );
-};
+}
 
-const TaskItem = ({ task, onDelete, onToggle, onEdit }) => {
+function TaskItem({ task, onDelete, onToggle, onEdit }) {
   const [isEditing, setIsEditing] = useState(false);
 
   let taskContent = isEditing ? (
@@ -44,14 +45,14 @@ const TaskItem = ({ task, onDelete, onToggle, onEdit }) => {
   );
 
   return (
-    <li>
+    <>
       <label>
         <input type='checkbox' checked={task.done} onChange={() => onToggle(task.id)} />
         {taskContent}
         <button onClick={() => onDelete(task.id)}>Delete</button>
       </label>
-    </li>
+    </>
   );
-};
+}
 
 export default TaskList;
