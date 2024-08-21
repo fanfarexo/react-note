@@ -14,6 +14,13 @@ type TaskActionsType =
   | { type: 'toggle_done'; id: number }
   | { type: 'edit_task'; id: number; text: string };
 
+const ACTIONS = {
+  ADD_TASK: 'add_task',
+  DELETE_TASK: 'delete_task',
+  TOGGLE_DONE: 'toggle_done',
+  EDIT_TASK: 'edit_task',
+} as const;
+
 const initialTasks: InitialTasksType = [
   { id: 0, text: 'Visit Kafka Museum', done: true },
   { id: 1, text: 'Watch a puppet show', done: false },
@@ -22,7 +29,7 @@ const initialTasks: InitialTasksType = [
 
 function taskReducer(state: InitialTasksType, action: TaskActionsType): InitialTasksType {
   switch (action.type) {
-    case 'add_task':
+    case ACTIONS.ADD_TASK:
       return [
         ...state,
         {
@@ -31,15 +38,12 @@ function taskReducer(state: InitialTasksType, action: TaskActionsType): InitialT
           done: false,
         },
       ];
-    case 'delete_task':
+    case ACTIONS.DELETE_TASK:
       return state.filter((task) => task.id !== action.id);
-    case 'toggle_done':
+    case ACTIONS.TOGGLE_DONE:
       return state.map((task) => (task.id === action.id ? { ...task, done: !task.done } : task));
-    case 'edit_task':
+    case ACTIONS.EDIT_TASK:
       return state.map((task) => (task.id === action.id ? { ...task, text: action.text } : task));
-    default: {
-      throw Error('✅ Unknown action: ' + action);
-    }
   }
 }
 
@@ -53,20 +57,20 @@ function TaskApp() {
 
   const handleAddTask = (inputText: string) => {
     if (!inputValue.trim()) return setInputValue('');
-    dispatch({ type: 'add_task', text: inputText });
+    dispatch({ type: ACTIONS.ADD_TASK, text: inputText });
     setInputValue('');
   };
 
   const handleDeleteTask = (taskId: number) => {
-    dispatch({ type: 'delete_task', id: taskId });
+    dispatch({ type: ACTIONS.DELETE_TASK, id: taskId });
   };
 
   const handleToggleDone = (taskId: number) => {
-    dispatch({ type: 'toggle_done', id: taskId });
+    dispatch({ type: ACTIONS.TOGGLE_DONE, id: taskId });
   };
 
   const handleEditTask = (taskId: number, editText: string) => {
-    dispatch({ type: 'edit_task', id: taskId, text: editText });
+    dispatch({ type: ACTIONS.EDIT_TASK, id: taskId, text: editText });
   };
 
   return (
